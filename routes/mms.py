@@ -3,25 +3,45 @@ import twilio.twiml
 
 
 class MMS:
-    methods = ['GET', 'POST']
+    methods = ['POST']
 
     def route(self, request):
-        if request.method == 'GET':
-            return self.GET(request) 
-        elif request.method == 'POST':
+        if request.method == 'POST':
             return self.POST(request)
-         
-    def GET(self, request):
-        twilio_client.messages.create(
-            to="+12402912158",
-            from_="+12403294422",
-            body="fuck u"
-        )
-        
-        return "o ok"
         
     def POST(self, request):
-        resp = twilio.twiml.Response()
-        resp.message(str(request.values))
+        request.values.get('body')
         
-        return str(resp)
+        # Languages
+        if body.startswith('add'):
+            return self._add_language(request)
+        elif body.startswith('remove'):
+            return self._remove_language(request)
+        
+        # Pen Pals
+        elif body.startswith('report'):
+            return self._report_pen_pal(request)
+        elif body.startswith('swap'):
+            return self._swap_pen_pal(request)
+        
+        # Messages
+        else:
+            return self._queue_message(request)    
+        
+    # Languages
+    def _add_language(self, request):
+        pass
+        
+    def _remove_language(self, request):
+        pass
+        
+    # Pen Pals
+    def _report_pen_pal(self, request):
+        pass
+        
+    def _swap_pen_pal(self, request):
+        pass
+        
+    # Messages
+    def _queue_message(self, request):
+        pass
