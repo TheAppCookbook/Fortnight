@@ -1,47 +1,101 @@
 from commons import twilio_client
-import twilio.twiml
+
+from routes.route import Route
+
+from models.user import User
+from models.message import Message
+
+from conversatiosn import language_management
+
+import re
+
+from parse_rest.core import ResourceRequestBadRequest
 
 
-class MMS:
+class MMS(Route):
     methods = ['POST']
 
-    def route(self, request):
-        if request.method == 'POST':
-            return self.POST(request)
-        
     def POST(self, request):
-        request.values.get('body')
+        body = request.values.get('body')
+        if not body:
+            body = request.get_json()['body']
+    
+        phone = request.values.get('From')
+        if not phone:
+            phone = request.get_json()['From']
+    
+        credentials = User.credentials(phone)
+        
+        try:
+            sender = User.login(*credentials)
+        except (ResourceRequestBadRequest, KeyError):
+            return ('', 401)
         
         # Languages
         if body.startswith('add'):
-            return self._add_language(request)
+            return self._add_language(sender, body, request)
         elif body.startswith('remove'):
-            return self._remove_language(request)
+            return self._remove_language(sender, body, request)
         
         # Pen Pals
         elif body.startswith('report'):
-            return self._report_pen_pal(request)
+            return self._report_pen_pal(sender, body, request)
         elif body.startswith('swap'):
-            return self._swap_pen_pal(request)
+            return self._swap_pen_pal(sender, body, request)
         
         # Messages
         else:
-            return self._queue_message(request)    
+            return self._queue_message(sender, body, request)    
         
     # Languages
-    def _add_language(self, request):
-        pass
+    def _add_language(self, sender, body, request):
+        languages = User.languages(body)
+        sender.languages += languages
         
-    def _remove_language(self, request):
-        pass
+        sender.save()
+        return language_management(sender.phone, sender.languages)
+        
+    def _remove_language(self, sender, body, request):
+        languages = User.languages(body)
+        sender.languages = [lang for lang in sender.languages if lang not in languages]
+        
+        sender.save()
+        return language_management(sender.phone, sender.languages)
         
     # Pen Pals
-    def _report_pen_pal(self, request):
+    def _report_pen_pal(self, sender, body, request):
         pass
         
-    def _swap_pen_pal(self, request):
+    def _swap_pen_pal(self, sender, body, request):
         pass
         
     # Messages
-    def _queue_message(self, request):
-        pass
+    def _queue_message(self, sender, body, request):
+        # Find any existing messages and merge...
+        messages = Message.Query.filter(sender=sender)
+        if messages:
+            message = messages[0]
+        
+            message.body += '\n--\n' + body
+            message.save()
+            
+            return 'message merged'
+    
+        # Otherwise, add a new
+        recipient_phone = request.values.get('To')
+        if not recipient_phone:
+            recipient_phone = request.get_json()['To']
+            
+        recipients = User.Query.filter(phone=recipient_phone)
+        if not recipients:
+            return None
+        
+        recipient = recipients[0]
+        message = Message(
+            body=body,
+            sender=sender,
+            recipient=recipient
+        )
+        
+        message.save()
+        return 'message posted'
