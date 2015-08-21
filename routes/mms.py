@@ -5,6 +5,8 @@ class MMS:
     def route(self, request):
         if request.method == 'GET':
             return self.GET(request) 
+        elif request.method == 'POST':
+            return self.POST(request)
          
     def GET(self, request):
         message = twilio_client.messages.create(
@@ -14,3 +16,6 @@ class MMS:
         )
         
         return str(message)
+        
+    def POST(self, request):
+        return str(request.values)
