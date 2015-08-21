@@ -5,6 +5,7 @@ itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
 parse-rest==0.2.20141004
+phonenumbers==7.0.9
 PySocks==1.5.6
 pytz==2015.4
 six==1.9.0
