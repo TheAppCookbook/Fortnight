@@ -1,4 +1,5 @@
 from commons import twilio_client
+import twilio
 
 
 class MMS:
@@ -18,4 +19,7 @@ class MMS:
         return str(message)
         
     def POST(self, request):
-        return str(request.values)
+        resp = twilio.twiml.Response()
+        resp.message = str(request.values)
+        
+        return str(resp)
