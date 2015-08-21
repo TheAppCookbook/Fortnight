@@ -1,5 +1,5 @@
 from commons import twilio_client
-import twilio
+import twilio.twiml
 
 
 class MMS:
@@ -12,13 +12,13 @@ class MMS:
             return self.POST(request)
          
     def GET(self, request):
-        message = twilio_client.messages.create(
+        twilio_client.messages.create(
             to="+12402912158",
             from_="+12403294422",
             body="fuck u"
         )
         
-        return str(message)
+        return "o ok"
         
     def POST(self, request):
         resp = twilio.twiml.Response()
