@@ -5,7 +5,7 @@ import twilio.twiml
 
 
 def message(recipient_phone, languages):
-    message = "🛂 Ok. Fortnight now knows you speak these languages: "
+    message = u"🛂 Ok. Fortnight now knows you speak these languages: "
     message += ','.join(languages)
         
     resp = twilio.twiml.Response()
