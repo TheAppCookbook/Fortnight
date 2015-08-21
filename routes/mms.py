@@ -22,6 +22,6 @@ class MMS:
         
     def POST(self, request):
         resp = twilio.twiml.Response()
-        resp.message = str(request.values)
+        resp.message(str(request.values))
         
         return str(resp)
