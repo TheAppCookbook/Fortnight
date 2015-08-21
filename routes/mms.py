@@ -3,6 +3,8 @@ import twilio
 
 
 class MMS:
+    methods = ['GET', 'POST']
+
     def route(self, request):
         if request.method == 'GET':
             return self.GET(request) 

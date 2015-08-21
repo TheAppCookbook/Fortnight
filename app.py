@@ -11,7 +11,7 @@ app = Flask(__name__)
 def _index():
     return Index().route(request)
     
-@app.route('/mms')
+@app.route('/mms', methods=MMS.methods)
 def _mms():
     return MMS().route(request)
 
