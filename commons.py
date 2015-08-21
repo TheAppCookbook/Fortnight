@@ -9,5 +9,5 @@ twilio_client = twilio.rest.TwilioRestClient(
     "fb838481285047827014f94fd493a6d4"
 )
 
-app.config['SQLALCHEMY_DATABSE_URI'] = os.environ['DATABASE_URL'] if 'DATABASE_URL' in os.environ else 'sqlite:///tmp/flask_sql'
+app.config['SQLALCHEMY_DATABSE_URI'] = os.environ['DATABASE_URL']
 database = SQLAlchemy(app)
