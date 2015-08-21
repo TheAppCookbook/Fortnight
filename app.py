@@ -1,9 +1,3 @@
-### Ignore this
-if __name__ == "__main__":
-    import sys
-    sys.dont_write_bytecode = True
-### Prevents file clutter
-
 import os
 from flask import Flask, request
 
