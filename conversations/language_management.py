@@ -29,7 +29,8 @@ language_map = {
 
 def message(recipient_phone, languages):
     message = "🛂 Ok. Fortnight now knows you speak these languages: "
-    message += u','.join(languages)
+    for language in languages:
+        message += language + " "
         
     resp = twilio.twiml.Response()
     resp.message(message)
