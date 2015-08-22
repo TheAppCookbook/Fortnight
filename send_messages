@@ -16,6 +16,6 @@ for message in messages:
     recipient_phone = message.recipient.phone
     message_sending.send_message(message.body, recipient_phone)
     
-if messages:
+if len(messages) > 0:
     batcher = ParseBatcher()
     batcher.batch_delete(messages)
