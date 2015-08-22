@@ -5,7 +5,7 @@ from routes.route import Route
 from models.user import User
 from models.message import Message
 
-from conversatiosn import language_management
+from conversations import language_management
 
 import re
 
