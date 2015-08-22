@@ -39,6 +39,7 @@ class User(ParseUser):
             if lang in language_map
         ]
         
+        languages = list(set(languages))
         return languages
 
 
