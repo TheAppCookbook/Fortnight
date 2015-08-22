@@ -53,14 +53,14 @@ class MMS(Route):
         sender.languages += languages
         
         sender.save()
-        return language_management(sender.phone, sender.languages)
+        return language_management.message(sender.phone, sender.languages)
         
     def _remove_language(self, sender, body, request):
         languages = User.languages(body)
         sender.languages = [lang for lang in sender.languages if lang not in languages]
         
         sender.save()
-        return language_management(sender.phone, sender.languages)
+        return language_management.message(sender.phone, sender.languages)
         
     # Pen Pals
     def _report_pen_pal(self, sender, body, request):
