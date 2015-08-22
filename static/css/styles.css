@@ -4,7 +4,7 @@ body {
 	font-weight: 500px;
 	background: #fff;
 	line-height: 1.5;
-	font-family: 'Asap-Regular';
+	font-family: 'Asap';
 	}
 	
 input:focus,
@@ -23,20 +23,20 @@ h1 {
 	font-size: 45px;
 	color: #794D9A;
 	line-height: 1.3;
-	font-family: 'Asap-Regular';
+	font-family: 'Asap';
 	font-weight: 500;
 	}
 	
 h2 {
 	font-size: 25px;
-	font-family: 'Asap-Bold';
+	font-family: 'Asap';
 	}
 	
 h3 {
 	font-size: 20px;
 	margin-bottom: 10px;
 	color: #794D9A;
-	font-family: 'Asap-Bold';
+	font-family: 'Asap';
 	}
 
 	
