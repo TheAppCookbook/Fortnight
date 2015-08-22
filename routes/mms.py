@@ -7,8 +7,6 @@ from models.message import Message
 
 from conversations import language_management
 
-import re
-
 from parse_rest.core import ResourceRequestBadRequest
 
 

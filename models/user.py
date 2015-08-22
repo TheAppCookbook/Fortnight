@@ -2,7 +2,9 @@
 
 from parse_rest.datatypes import Object as ParseObject
 from parse_rest.user import User as ParseUser
+
 import phonenumbers
+import re
 
 from phonenumbers.phonenumberutil import NumberParseException
 
@@ -34,9 +36,16 @@ class User(ParseUser):
         "🇬🇧": "🇺🇸",
         
         # Spanish
-#        🇦🇷🇨🇱🇨🇴
+#        🇦🇷🇨🇱🇨🇴🇨🇷🇩🇴🇸🇻🇲🇽🇳🇮🇵🇦🇵🇾🇵🇪
         
         # French
+#        🇬🇵(G) 🇭🇹 🇲🇶(M) 🇷🇪(R) 🇫🇷(F)
+
+        # Portugese
+#        🇧🇷🇵🇹🇵🇷
+        
+        # Korean
+#        🇰🇵
     }
             
     @classmethod
