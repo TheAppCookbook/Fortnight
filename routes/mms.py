@@ -9,8 +9,6 @@ from models.message import Message
 from conversations import message_sending
 from conversations import language_management
 
-from parse_rest.datatypes import ACL
-
 from parse_rest.core import ResourceRequestBadRequest
 
 
