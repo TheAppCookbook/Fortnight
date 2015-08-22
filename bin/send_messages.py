@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+# Only needed locally?
+#import sys; sys.path += ['../']
+# --------------------
+
+from commons import parse_client
+from models.message import Message
+from conversations import message_sending
+
+from parse_rest.connection import ParseBatcher
+import datetime
+
+
+# Main
+fortnight = datetime.datetime.now() - datetime.timedelta(days=14)
+messages = Message.Query.filter(createdAt__lt=fortnight)
+
+for message in messages:
+    recipient_phone = message.recipient.phone
+    message_sending.send_message(message.body, recipient_phone)
+    
+batcher = ParseBatcher()
+batcher.batch_delete(messages)
