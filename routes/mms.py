@@ -3,8 +3,10 @@ from commons import twilio_client
 from routes.route import Route
 
 from models.user import User
+from models.user import Palship
 from models.message import Message
 
+from conversations import message_sending
 from conversations import language_management
 
 from parse_rest.core import ResourceRequestBadRequest
@@ -79,18 +81,18 @@ class MMS(Route):
             message.body += '\n--\n' + body
             message.save()
             
-            return 'message merged'
+            return message_sending(sender.phone)
     
         # Otherwise, add a new
-        recipient_phone = request.values.get('To')
-        if not recipient_phone:
-            recipient_phone = request.get_json()['To']
-            
-        recipients = User.Query.filter(phone=recipient_phone)
-        if not recipients:
-            return None
-        
-        recipient = recipients[0]
+        palships = Palship.Query.filter(lhs=sender)
+        if palships:
+            recipient = palships[0].rhs
+        else:
+            palships = Palship.Query.filter(rhs=sender)
+            if not palships:
+                return None
+            recipient = palships[0].lhs
+
         message = Message(
             body=body,
             sender=sender,
@@ -98,4 +100,4 @@ class MMS(Route):
         )
         
         message.save()
-        return 'message posted'
+        return message_sending.message(sender.phone)

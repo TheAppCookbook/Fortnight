@@ -16,7 +16,7 @@ def send_join_message(recipient_phone, has_palship):
         message += (
             "It doesn't look like anyone who's "
             "available is speaking your language. "
-            "To add more languages, text 'add 🇲🇽', "
+            "To add more languages, text 'add 🇧🇹', "
             "or any other flag emoji."
         )
 
