@@ -8,6 +8,7 @@ from models.user import Palship
 
 from conversations import user_creation
 
+import flask
 import json
 import uuid
 import random
@@ -19,9 +20,11 @@ class Index(Route):
     methods = ['GET', 'PUT']
 
     def GET(self, request):
-        return "/index"
+        return flask.render_template('index.html')
     
     def PUT(self, request):
+        refresh = '<meta http-equiv="refresh" content="0; url=/">'
+    
         raw_phone = request.values.get('phone_number')
         if not raw_phone:
             raw_phone = request.get_json()['phone_number']
@@ -34,7 +37,7 @@ class Index(Route):
         if not languages:
             languages = [request.get_json()['base_language']]
         
-        pals = User.Query.filter(languages__all=languages, pal=None, phone__ne=phone)
+        pals = list(User.Query.filter(languages__all=languages, pal=None, phone__ne=phone))
         pal = random.choice(pals) if pals else None
         
         credentials = User.credentials(phone)        
@@ -66,7 +69,7 @@ class Index(Route):
             err = json.loads(err_str)
             
             if err['code'] == 202:
-                return (str(err), 304)
+                return refresh
             raise err_obj
         
-        return (str(user), 204)
+        return refresh
