@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from parse_rest.datatypes import Object as ParseObject
 from parse_rest.user import User as ParseUser
 import phonenumbers
@@ -25,7 +27,10 @@ class User(ParseUser):
         except:
             return None
             
-    __language_map = {}
+    __language_map = {
+#        "🇺🇸"
+#        🇬🇧🇮🇪🇦🇺🇻🇬🇨🇦🇰🇾🇫🇯🇳🇿
+    }
             
     @classmethod
     def languages(cls, language_str):
