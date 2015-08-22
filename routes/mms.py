@@ -16,9 +16,9 @@ class MMS(Route):
     methods = ['POST']
 
     def POST(self, request):
-        body = request.values.get('body')
+        body = request.values.get('Body')
         if not body:
-            body = request.get_json()['body']
+            body = request.get_json()['Body']
     
         phone = request.values.get('From')
         if not phone:
