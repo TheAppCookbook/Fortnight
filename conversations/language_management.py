@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from commons import twilio_sender
-from commons import twilio_client
-
 import twilio.twiml
 
 

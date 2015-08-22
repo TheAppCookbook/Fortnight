@@ -9,6 +9,8 @@ from models.message import Message
 from conversations import message_sending
 from conversations import language_management
 
+from parse_rest.datatypes import ACL
+
 from parse_rest.core import ResourceRequestBadRequest
 
 
@@ -81,7 +83,7 @@ class MMS(Route):
             message.body += '\n--\n' + body
             message.save()
             
-            return message_sending(sender.phone)
+            return message_sending.message()
     
         # Otherwise, add a new
         palships = Palship.Query.filter(lhs=sender)
@@ -100,4 +102,4 @@ class MMS(Route):
         )
         
         message.save()
-        return message_sending.message(sender.phone)
+        return message_sending.message()
