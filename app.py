@@ -16,5 +16,6 @@ def _index():
 def _mms():
     return MMS().route(request)
 
+app.debug = True
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
