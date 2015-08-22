@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
-
 from parse_rest.datatypes import Object as ParseObject
 from parse_rest.user import User as ParseUser
+
+from conversations.language_management import language_map
 
 import phonenumbers
 import re
@@ -29,33 +29,14 @@ class User(ParseUser):
         except:
             return None
             
-    __language_map = {
-        # English
-        "🇻🇮": "🇺🇸", "🇮🇪": "🇺🇸", "🇦🇺": "🇺🇸", "🇻🇬": "🇺🇸",
-        "🇨🇦": "🇺🇸", "🇰🇾": "🇺🇸", "🇫🇯": "🇺🇸", "🇳🇿": "🇺🇸",
-        "🇬🇧": "🇺🇸",
-        
-        # Spanish
-#        🇦🇷🇨🇱🇨🇴🇨🇷🇩🇴🇸🇻🇲🇽🇳🇮🇵🇦🇵🇾🇵🇪
-        
-        # French
-#        🇬🇵(G) 🇭🇹 🇲🇶(M) 🇷🇪(R) 🇫🇷(F)
-
-        # Portugese
-#        🇧🇷🇵🇹🇵🇷
-        
-        # Korean
-#        🇰🇵
-    }
-            
     @classmethod
     def languages(cls, language_str):
         language_str = re.sub(r'(\w+)', '', language_str)
         languages = [lang for lang in re.split(r'\s+', language_str) if lang]
         
         languages += [
-            cls.__language_map[lang] for lang in languages
-            if lang in cls.__language_map
+            language_map[lang] for lang in languages
+            if lang in language_map
         ]
         
         return languages
