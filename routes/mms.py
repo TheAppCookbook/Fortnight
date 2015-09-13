@@ -45,7 +45,7 @@ class MMS(Route):
         
         # Messages
         else:
-            return self._queue_message(sender, body, request)    
+            return self._queue_message(sender, body, request)
         
     # Languages
     def _add_language(self, sender, body, request):
@@ -84,14 +84,14 @@ class MMS(Route):
             return message_sending.message()
     
         # Otherwise, add a new
-        palships = Palship.Query.filter(lhs=sender)
+        palships = Palship.Query.filter(lhs=sender.objectId)
         if palships:
-            recipient = palships[0].rhs
+            recipient = User.Query.get(objectId=palships[0].rhs)
         else:
             palships = Palship.Query.filter(rhs=sender)
             if not palships:
                 return None
-            recipient = palships[0].lhs
+            recipient = User.Query.get(objectId=palships[0].lhs)
 
         message = Message(
             body=body,

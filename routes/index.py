@@ -33,13 +33,14 @@ class Index(Route):
         if not phone:
             return ('', 400)
             
-        languages = [request.values.get('base_language')]
-        if not languages:
-            languages = [request.get_json()['base_language']]
+        language = request.values.get('base_language')
+        if not language:
+            language = request.get_json()['base_language']
+        languages = [language]
         
         pals = list(User.Query.filter(languages__all=languages, pal=None, phone__ne=phone))
         pal = random.choice(pals) if pals else None
-        
+
         credentials = User.credentials(phone)
         try:
             user = User.signup(
@@ -53,8 +54,8 @@ class Index(Route):
             palship = None
             if pal:
                 palship = Palship(
-                    lhs=user,
-                    rhs=pal
+                    lhs=user.objectId,
+                    rhs=pal.objectId
                 )
                 
                 palship.save()
