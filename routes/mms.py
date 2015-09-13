@@ -74,7 +74,7 @@ class MMS(Route):
     # Messages
     def _queue_message(self, sender, body, request):
         # Find any existing messages and merge...
-        messages = Message.Query.filter(sender=sender)
+        messages = list(Message.Query.filter(sender=sender))
         if messages:
             message = messages[0]
         
@@ -84,11 +84,11 @@ class MMS(Route):
             return message_sending.message()
     
         # Otherwise, add a new
-        palships = Palship.Query.filter(lhs=sender.objectId)
+        palships = list(Palship.Query.filter(lhs=sender.objectId))
         if palships:
             recipient = User.Query.get(objectId=palships[0].rhs)
         else:
-            palships = Palship.Query.filter(rhs=sender)
+            palships = list(Palship.Query.filter(rhs=sender))
             if not palships:
                 return None
             recipient = User.Query.get(objectId=palships[0].lhs)
