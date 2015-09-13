@@ -74,7 +74,7 @@ class MMS(Route):
     # Messages
     def _queue_message(self, sender, body, request):
         # Find any existing messages and merge...
-        messages = list(Message.Query.filter(sender=sender))
+        messages = list(Message.Query.filter(sender=sender.objectId))
         if messages:
             message = messages[0]
         
@@ -95,8 +95,8 @@ class MMS(Route):
 
         message = Message(
             body=body,
-            sender=sender,
-            recipient=recipient
+            sender=sender.objectId,
+            recipient=recipient.objectId
         )
         
         message.save()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from commons import parse_client
+from models.user import User
 from models.message import Message
 from conversations import message_sending
 
@@ -13,7 +14,8 @@ fortnight = datetime.datetime.now() - datetime.timedelta(days=14)
 messages = Message.Query.filter(createdAt__lt=fortnight)
 
 for message in messages:
-    recipient_phone = message.recipient.phone
+    recipient = User.Query.get(objectId=message.recipient)
+    recipient_phone = recipient.phone
     message_sending.send_message(message.body, recipient_phone)
     
 if list(messages):
