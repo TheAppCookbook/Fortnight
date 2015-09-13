@@ -53,7 +53,8 @@ class MMS(Route):
         sender.languages = languages
         
         sender.save()
-        return language_management.send_message(sender.phone, languages)
+        language_management.send_message(sender.phone, languages)
+        return ""
         
     def _remove_language(self, sender, body, request):
         languages = User.languages(body)
@@ -62,7 +63,9 @@ class MMS(Route):
         
         sender.languages = languages
         sender.save()
-        return language_management.send_message(sender.phone, languages)
+        
+        language_management.send_message(sender.phone, languages)
+        return ""
         
     # Pen Pals
     def _report_pen_pal(self, sender, body, request):
@@ -81,7 +84,8 @@ class MMS(Route):
             message.body += '\n--\n' + body
             message.save()
             
-            return message_sending.send_received_message(sender.phone)
+            message_sending.send_received_message(sender.phone)
+            return ""
     
         # Otherwise, add a new
         palships = list(Palship.Query.filter(lhs=sender.objectId))
@@ -100,4 +104,5 @@ class MMS(Route):
         )
         
         message.save()
-        return message_sending.send_received_message(sender.phone)
+        message_sending.send_received_message(sender.phone)
+        return ""
