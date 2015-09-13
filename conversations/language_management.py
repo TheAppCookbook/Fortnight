@@ -27,13 +27,14 @@ language_map = {
     "🇨🇭": "🇩🇪"
 }
 
-def message(recipient_phone, languages):
+def send_message(recipient_phone, languages):
     message = "🛂 Ok. Fortnight now knows you speak these languages: "
     for language in languages:
         message += language.encode('utf-8') + " "
     message = message.decode('utf-8')
         
-    resp = twilio.twiml.Response()
-    resp.message(message)
-    
-    return str(resp)
+    twilio_client.messages.create(
+        to=recipient_phone,
+        from_=twilio_sender,
+        body=message
+    )
