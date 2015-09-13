@@ -17,12 +17,12 @@ from parse_rest.core import ResourceRequestBadRequest
 
 
 class Index(Route):
-    methods = ['GET', 'PUT']
+    methods = ['GET', 'POST']
 
     def GET(self, request):
         return flask.render_template('index.html')
     
-    def PUT(self, request):
+    def POST(self, request):
         refresh = '<meta http-equiv="refresh" content="0; url=/">'
     
         raw_phone = request.values.get('phone_number')
@@ -40,7 +40,7 @@ class Index(Route):
         pals = list(User.Query.filter(languages__all=languages, pal=None, phone__ne=phone))
         pal = random.choice(pals) if pals else None
         
-        credentials = User.credentials(phone)        
+        credentials = User.credentials(phone)
         try:
             user = User.signup(
                 credentials[0],
