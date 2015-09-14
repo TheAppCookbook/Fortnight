@@ -19,6 +19,8 @@ class MMS(Route):
         body = request.values.get('Body')
         if not body:
             body = request.get_json()['Body']
+            
+        print("received message %s" % body)
     
         phone = request.values.get('From')
         if not phone:
